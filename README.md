@@ -32,5 +32,5 @@ Another very popular tool is IDA Pro, a well-known solution in the field of bina
 ## Sections
 
 + [01_coded_secrets](01_coded_secrets/README.md): a simple lesson on why secrets should not be hard-coded.
-+ 02_jump_function: a lesson on why it is a bad practice to leave testing or debugging code on the program, even if you think it’s hidden or commented out.
++ 02_jump_function (WIP): a lesson on why it is a bad practice to leave testing or debugging code on the program, even if you think it’s hidden or commented out.
 
