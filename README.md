@@ -4,6 +4,7 @@
 
 This repository contains a collection of simple and easy-to-follow lessons on various fundamental topics in binary analysis and reverse engineering, designed specifically for beginners. The main focus of these lessons is to explore common security concerns in binary files and learn how to mitigate them.
 
+
 ## Introduction
 
 Most applications running on PCs, servers, mobile devices, and other platforms are binary files that the machine executes directly. In simple terms, an .exe file contains a set of instructions that the program carries out on the machine.
