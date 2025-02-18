@@ -9,7 +9,7 @@ This repository contains a collection of simple and easy-to-follow lessons on va
 
 Most applications running on PCs, servers, mobile devices, and other platforms are binary files that the machine executes directly. In simple terms, an .exe file contains a set of instructions that the program carries out on the machine.
 
-That raises a question: if the file includes a list of tasks for the machine to perform, can we modify those tasks so it does something else instead? The answer is, in a way, yes. But not only that—simply by analyzing the information contained in the binary, we might uncover vulnerabilities that enable us to attack the application or system in unexpected ways. For instance, leftover debugging symbols, hard-coded credentials, or unprotected entry points could reveal opportunities for exploits or allow unauthorized access.
+This raises a question: if the file includes a list of tasks for the machine to perform, can we modify those tasks so it does something else instead? The answer is, in a way, yes. But not only that—simply by analyzing the information contained in the binary, we might uncover vulnerabilities that enable us to attack the application or system in unexpected ways. For instance, leftover debugging symbols, hard-coded credentials, or unprotected entry points could reveal opportunities for exploits or allow unauthorized access.
 
 Simply opening opening a binary file in a text editor won’t be enough to analyze it because it’s not written in a human-readable format. To understand and modify its instructions, we need specialized tools that interpret the file in the same way the machine does.
 
