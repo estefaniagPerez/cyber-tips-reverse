@@ -6,7 +6,7 @@
 A common mistake is to put secrets directly into the source code as plain text. This should be avoided, as it exposes sensitive information that can lead to unauthorized access or data breaches. Instead, consider alternative methods, such as environment variables, secret management services, or vaults to store and manage your secrets.
 
 ## Compromised Code
-In this code, the program asks the user for a password and checks whether it matches a secret. The problem is that the password is hard-coded directly into the source code.
+In this code, the program asks the user for a password and checks whether it matches a secret or not. The problem is that the password is hard-coded directly into the source code.
 
 ```shell
 const char secret[STR_SIZE] = "super_sECret_passWorD!";
