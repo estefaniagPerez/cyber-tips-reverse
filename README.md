@@ -16,7 +16,7 @@ Simply opening opening a binary file in a text editor won’t be enough to analy
 In this repository, we focus on executable files that are compiled directly to native machine binaries - like those written in C/C++ -.
 
 ## Tools
-To analyze binary files, there are a variety of tools available. In this repository, I will primarily demonstrate how to use these tools on Linux. Some of these tools are also available on Windows, or there are equivalent tools for Windows. That said, if you are using Windows, I recommend downloading a Virtual Machine with a Linux distribution, such as Kali Linux, which includes these tools on their repository and readily available.
+For analyzing binary files, there are a variety of tools available. In this repository, I will primarily demonstrate how to use these tools on Linux. Some of these tools are also available on Windows, or there are equivalent tools for Windows. That said, if you are using Windows, I recommend downloading a Virtual Machine with a Linux distribution, such as Kali Linux, which includes these tools on their repository and readily available.
 
 To analyze binary files, there are many tools available. In this repository, I will demonstrate how to use some of these tools on Linux. Some are also available on Windows, or have Windows equivalents. However, if you’re using Windows, I recommend setting up a virtual machine with a Linux distribution - such as Kali Linux - that includes these tools in its repository.
 
