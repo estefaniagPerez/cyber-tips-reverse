@@ -2,7 +2,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-#define STR_SIZE 50
+#define STR_SIZE 10
 
 void disable_echo() {
     struct termios tty;
@@ -49,16 +49,16 @@ int read_encrypt_key(char* result, int size) {
 
 void unencrypt_data(char* key) {
     // Here is where the real unencryption algorithm should be
-    printf("Data Unencrypted!!!\n");
+    printf("Data Encrypted!!!\n");
 }
 
 int main() {
-    char input[STR_SIZE];
+    char input[10];
     disable_echo();
 
-    // 1. Reads the users' input
+    // 1. Unsafe read the users' input
     printf("Input the secret: ");
-    fgets(input, STR_SIZE - 1, stdin);
+    scanf("%s", input);
     
     // 2. Remove line break
     input[strcspn(input, "\n")] = '\0';

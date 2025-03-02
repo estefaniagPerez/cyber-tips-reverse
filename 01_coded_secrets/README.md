@@ -15,7 +15,7 @@ const char secret[STR_SIZE] = "super_sECret_passWorD!";
 While the secret is not displayed to the user, it remains inside the binary file.
 
 ### Compile the Source Code
-If you want to follow the next section you can compile the program using the make file. Note that gcc and make need to be intalled on your machine in order to compile the source code.
+If you want to follow the next point you can compile the program using the make file. Note that gcc and make need to be intalled on your machine in order to compile the source code.
 
 This command builds the program into a binary file - coded_secrets.sh -. 
 ```shell
