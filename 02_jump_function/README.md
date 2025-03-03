@@ -108,3 +108,9 @@ Beyond careful use of safe functions, validating the content of user-supplied da
 Since this is easier said than done, a good practice would be using static code analyzers that are capable to analyze source code in search of vulnerbilities and common issues.
 
 Finally, we can compile our code with security-hardening flags. For example, most modern compilers offer stack-protector or address sanitizer features that can help detect out-of-bounds writes or reads during development and testing.
+
+(WIP) Add more info about canary, ASLR and DEP
+```shell
+sysctl -w kernel.randomize_va_space=2
+gcc -fno-stack-protector ... 
+```
