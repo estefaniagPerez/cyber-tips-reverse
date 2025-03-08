@@ -106,7 +106,9 @@ gcc -fno-stack-protector ...
 ```
 
 ### DEP
-
+```make
+-fno-stack-protector
+```
 ### Canary
 
 ## Mitigation
