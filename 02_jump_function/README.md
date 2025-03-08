@@ -96,21 +96,30 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 (WIP) to be continued...
 
+## System and Compilation Protections
+(WIP) Add more info about canary, ASLR and DEP
+
+### ASLR
+```shell
+sysctl -w kernel.randomize_va_space=2
+gcc -fno-stack-protector ... 
+```
+
+### DEP
+
+### Canary
+
 ## Mitigation
 The most obvious approach is to not leave testing code into the source code that can potentially expose confidential information or secrets, but even then we risk other problems, like a service becoming unavailable.
 
-In order to mitigate this kind of problems we can start by making sure the size of the data read each time from the user input, is limited to the size of the buffer. This can be done, using functions that require you to specify the maximum number of bytes to read. For instance, instead of using functions like gets() (which is unsafe and deprecated) or a naive scanf("%s", buf), you would use safer alternatives such as fgets(buf, sizeof(buf), stdin). It is still importan, to specify the correct size of the buffer in the second parameter.
+In order to mitigate this kind of problems we can start by making sure the size of the data readed is limited to the size of the buffer. This can be done, using functions that force to specify the maximum number of bytes to read. For instance, instead of using functions like gets() (which is unsafe and deprecated) or a naive scanf("%s", buf), it is safer to use alternatives such as fgets(buf, sizeof(buf), stdin). It is still importan, to specify the correct size of the buffer in the second parameter, otherwise we can still run into a buffer overflow.
 
 Additionally, you should always verify the return values of these functions to handle cases where reading fails or doesn’t consume as many bytes as expected.
 
-Beyond careful use of safe functions, validating the content of user-supplied data is crucial—if a certain field is supposed to hold only numeric values or specific symbols, you should validate that the data has that format. By limiting the size and format of input data, you reduce the probability of accidental buffer overflows.
+Beyond the use of safe functions, validating the content of user-supplied data is crucial, if a certain field is supposed to hold only numeric values or specific symbols, always validate the data hformat. By limiting the size and validating the input data, ythe probability of accidental buffer overflows is reduced.
 
 Since this is easier said than done, a good practice would be using static code analyzers that are capable to analyze source code in search of vulnerbilities and common issues.
 
 Finally, we can compile our code with security-hardening flags. For example, most modern compilers offer stack-protector or address sanitizer features that can help detect out-of-bounds writes or reads during development and testing.
 
-(WIP) Add more info about canary, ASLR and DEP
-```shell
-sysctl -w kernel.randomize_va_space=2
-gcc -fno-stack-protector ... 
-```
+
