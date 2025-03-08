@@ -99,12 +99,11 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 ## System and Compilers Safeguards
 (WIP) Add more info about canary, ASLR and DEP
 This kind of vulnerabilities use buffer overflows to modify the memory stack.
-Over the years, both compilers and OSs have implemented safeguards - such as Stack Canaries (also known as Stack Guard), Address Space Layout Randomization (ASLR), No-Execution bit and Data Execution Prevention (DEP) - that are meant to prevent this type of attack. 
+Over the years, both compilers and OSs have implemented safeguards - such as Stack Canaries (also known as Stack Guard), Address Space Layout Randomization (ASLR), No-Execution bit and Data Execution Prevention (DEP) - that are meant to prevent this type of attack. While these protections make it harder for a malicious third party to explote buffers overflow, they still can be bypassed or circumvented.
 
-While these protections make it harder for a malicious third party to explote buffers overflow, they still can be bypassed or circumvented.
-It is also important to note, that different systems or compilers can have some safeguards active but not other.
-For example, using the same code and Make file to compile the program jump_function in two different systems - an Ubuntu host and a Kali Virtual Machine -, 
-generates two executables with different safeguards.
+It is also important to note, that different systems or compilers can produce different safeguards with the same code.
+For example, using the same code and Make file to compile the program _jump_function_ in two different systems - an Ubuntu host and a Kali Virtual Machine -, 
+generates two executables with different safeguards, as can be seen in the following images.
 
 
 Host, with non-executable bit (nx) and canary safeguards activated
