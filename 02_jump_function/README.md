@@ -100,16 +100,21 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 (WIP) Add more info about canary, ASLR and DEP
 
 ### ASLR
+Random Memory
 ```shell
 sysctl -w kernel.randomize_va_space=2
 gcc -fno-stack-protector ... 
 ```
 
 ### DEP
+Protects memory by marking regions as non-executable
+
+### Canary
+Buffer overflow protection, by adding control data on the stack
+Segmentation error control.
 ```make
 -fno-stack-protector
 ```
-### Canary
 
 ## Mitigation
 The most obvious approach is to not leave testing code into the source code that can potentially expose confidential information or secrets, but even then we risk other problems, like a service becoming unavailable.
