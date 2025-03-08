@@ -99,6 +99,16 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 ## System and Compilation Protections
 (WIP) Add more info about canary, ASLR and DEP
 
+Host
+
+![alt text](images/image-15.png)
+
+
+
+Kali VM
+
+![alt text](images/image-14.png)
+
 ### ASLR
 Random Memory
 ```shell
@@ -106,7 +116,7 @@ sysctl -w kernel.randomize_va_space=2
 gcc -fno-stack-protector ... 
 ```
 
-### DEP
+### DEP and NX bit
 Protects memory by marking regions as non-executable
 
 ### Canary
