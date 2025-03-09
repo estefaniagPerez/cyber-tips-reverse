@@ -115,29 +115,29 @@ Kali VM, with non-executable bit (nx) safeguard activated, but canary deactivate
 
 ![alt text](images/image-14.png)
 
+
 ### ASLR
 
-When we run a program, this program is load into memory, each variable and function is given a memory address. With a buffer overflow it is possible to use this addresses to modify the program behaivior.
+When we run a program, it is loaded into memory, and each variable and function is assigned a memory address. With a buffer overflow, it is possible to use these addresses to modify the program’s behavior.
 
-When ASLR - Address Space Layout Randomization - is enabled, the memory address space is randomized every time the program is executed. Now if we look at the memory using Radare2, the address to *sym.read_encrypt_key* will change with every execution.
+When ASLR - Address Space Layout Randomization - is enabled, the memory address space is randomized every time the program is executed. If we inspect the memory using Radare2, the address of *sym.read_encrypt_key* changes with each execution.
 
-In Linux systems, ASLR can be activated and deactivated using the following command - a zero deactivates it -.
-
+In Linux systems, ASLR can be activated or deactivated using the following command - where setting the value to zero deactivates it - :
 ```shell
 sysctl -w kernel.randomize_va_space=2
 ```
+While ASLR makes it very difficult to obtain the address of the function to which an exploit might jump, it is not impossible. Some techniques involve information leaks or brute force. [This post](https://securitymaven.medium.com/demystifying-aslr-understanding-exploiting-and-defending-against-memory-randomization-4dd8fe648345) provides an excellent explanation of ASLR and its possible exploitations. Combining ASLR with other safeguards improves security and makes exploiting vulnerabilities significantly more difficult.
 
-
-
-### DEP and NX bit
+### NX bit (WIP)
 Protects memory by marking regions as non-executable
 
-### Canary
+### Canary (WIP)
 Buffer overflow protection, by adding control data on the stack
 Segmentation error control.
 ```make
 gcc -fno-stack-protector ... 
 ```
+### CFI (WIP)
 
 ## Mitigation
 The most obvious approach is to not leave testing code into the source code that can potentially expose confidential information or secrets, but even then we risk other problems, like a service becoming unavailable.
