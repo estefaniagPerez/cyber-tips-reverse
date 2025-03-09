@@ -133,7 +133,7 @@ NX bit is a compilation flag which makes certain regions of memory non-executabl
 
 This kind of safeguard is very commond now a days, and generally added by default during compilation. DEP is similar to NX bit, with the different that is an operating system feature, independedly on how the program was compiled, certain regions of memory will be non-executable, and the program variables will be put there.
 
-### Canary (WIP)
+### Canary
 This flag improves buffer overflow protection by adding control data on the stack. With stack canaries, signature values are placed on the stack, and before a return statement, these values are checked to see if they have changed. For example, if there’s a buffer overflow that allows writing up to the rbp in memory, the program checks whether the canary value has been altered before returning, rather than simply jumping to the base pointer (which may have been modified by the attack).
 
 Just like with ASLR, this safeguard improves security, but it is not impossible to exploit executables that have this protection. Through brute force and information leaks, attackers may still be able to bypass this security. [This post](https://ctf101.org/binary-exploitation/stack-canaries/) provides more in-depth information about canaries.
