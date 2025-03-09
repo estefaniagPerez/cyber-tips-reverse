@@ -145,7 +145,7 @@ gcc -fno-stack-protector ...
 ### CFI (WIP)
 CFI makes sure that the execution control flow is correct, by for example, calculating the control flow graph during compilation and validating the execution against it. This may not be always possible, due to the fact that some control flows are determined at runtime, for example with virtual function in C++.
 
-(WIP) Currently researching the topic.
+(WIP) Currently researching this topic.
 Some references:
 + [link](https://www.cs.columbia.edu/~suman/secure_sw_devel/p340-abadi.pdf)
 + [link](https://www.redhat.com/en/blog/fighting-exploits-control-flow-integrity-cfi-clang)
