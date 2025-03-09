@@ -94,7 +94,7 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 ![Alt text](images/image-11.png)
 
-(WIP) to be continued...
+(WIP) The section is in active development and will be finished soon...
 
 ## OS and Compiler Safeguards
 
