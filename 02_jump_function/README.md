@@ -128,12 +128,17 @@ sysctl -w kernel.randomize_va_space=2
 ```
 While ASLR makes it very difficult to obtain the address of the function to which an exploit might jump, it is not impossible. Some techniques involve information leaks or brute force. [This post](https://securitymaven.medium.com/demystifying-aslr-understanding-exploiting-and-defending-against-memory-randomization-4dd8fe648345) provides an excellent explanation of ASLR and its possible exploitations. Combining ASLR with other safeguards improves security and makes exploiting vulnerabilities significantly more difficult.
 
-### NX bit (WIP)
-Protects memory by marking regions as non-executable
+### NX bit & DEP
+NX bit is a compilation flag which makes certain regions of memory non-executable. When a program is load into memory some parts of the memory are always executable, for example, the program instructions need to be executed, but the memory that contains the data should not be executable. If this region of memory is executable it could lead to security vulnerabilities such code injection attacks, where a buffer overflow can be used to write new instrutions into the memory space and execute them.
+
+This kind of safeguard is very commond now a days, and generally added by default during compilation. DEP is similar to NX bit, with the different that is an operating system feature, independedly on how the program was compiled, certain regions of memory will be non-executable, and the program variables will be put there.
 
 ### Canary (WIP)
-Buffer overflow protection, by adding control data on the stack
-Segmentation error control.
+This flag improves buffer overflow protection by adding control data on the stack. With stack canaries, signature values are placed on the stack, and before a return statement, these values are checked to see if they have changed. For example, if there’s a buffer overflow that allows writing up to the rbp in memory, the program checks whether the canary value has been altered before returning, rather than simply jumping to the base pointer (which may have been modified by the attack).
+
+Just like with ASLR, this safeguard improves security, but it is not impossible to exploit executables that have this protection. Through brute force and information leaks, attackers may still be able to bypass this security. [This post](https://ctf101.org/binary-exploitation/stack-canaries/) provides more in-depth information about canaries.
+
+To disable canaries during compilation, you can use this parameter (not recommended unless it is purely for testing).
 ```make
 gcc -fno-stack-protector ... 
 ```
