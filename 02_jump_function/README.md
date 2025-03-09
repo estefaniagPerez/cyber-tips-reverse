@@ -94,7 +94,7 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 ![Alt text](images/image-11.png)
 
-(WIP) The section is in active development and will be finished soon...
+(WIP) The section is in active development and will be updated soon...
 
 ## OS and Compiler Safeguards
 
@@ -143,7 +143,9 @@ To disable canaries during compilation, you can use this parameter (not recommen
 gcc -fno-stack-protector ... 
 ```
 ### CFI (WIP)
-CFI makes sure that the execution control flow is correct, by for example, calculating the control flow graph during compilation and validating the execution against it. This may not be always possible, due to the fact that some control flows are determined at runtime, for example with virtual function in C++.
+CFI - Control-Flow Integrity - makes sure that the execution control flow is correct, by for example, calculating the control flow graph during compilation and validating the execution against it. This may not be always possible, due to the fact that some control flows are determined at runtime, for example with virtual function in C++.
+
+
 
 (WIP) Currently researching this topic.
 Some references:
