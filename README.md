@@ -4,6 +4,7 @@
 
 This repository contains a collection of simple and easy-to-follow lessons on various fundamental topics in binary analysis and reverse engineering, designed specifically for beginners. The main focus of these lessons is to explore common security concerns in binary files and learn how to mitigate them.
 
+![alt text](image-1.png)
 
 ## Introduction
 
