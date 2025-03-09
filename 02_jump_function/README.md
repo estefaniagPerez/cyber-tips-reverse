@@ -102,7 +102,7 @@ This kind of vulnerabilities use buffer overflows to modify the memory stack.
 Over the years, both compilers and OSs have implemented safeguards - such as Stack Canaries (also known as Stack Guard), Address Space Layout Randomization (ASLR), No-Execution bit and Data Execution Prevention (DEP) - that are meant to prevent this type of attack. While these protections make it harder for a malicious third party to explote buffers overflow, they still can be bypassed or circumvented.
 
 It is also important to note, that different systems or compilers can produce different safeguards with the same code.
-For example, using the same code and Make file to compile the program *jump_function*  in two different systems - an Ubuntu host and a Kali Virtual Machine -, 
+For example, using the same code and Make file to compile the program *jump_function*  in two different systems - an Linux host and a Linux Virtual Machine -, 
 generates two executables with different safeguards, as can be seen in the following images.
 
 
@@ -111,7 +111,7 @@ Host, with non-executable bit (nx) and canary safeguards activated.
 ![alt text](images/image-15.png)
 
 
-Kali VM, with non-executable bit (nx) safeguard activated, but canary deactivated.
+A Linux VM, with non-executable bit (nx) safeguard activated, but canary deactivated.
 
 ![alt text](images/image-14.png)
 
