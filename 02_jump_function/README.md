@@ -96,7 +96,7 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 (WIP) to be continued...
 
-## Systems and Compilers Safeguards
+## OS and Compiler Safeguards
 
 This kind of vulnerabilities use buffer overflows to modify the memory stack.
 Over the years, both compilers and OSs have implemented safeguards - such as Stack Canaries (also known as Stack Guard), Address Space Layout Randomization (ASLR), No-Execution bit and Data Execution Prevention (DEP) - that are meant to prevent this type of attack. While these protections make it harder for a malicious third party to explote buffers overflow, they still can be bypassed or circumvented.
@@ -143,6 +143,8 @@ To disable canaries during compilation, you can use this parameter (not recommen
 gcc -fno-stack-protector ... 
 ```
 ### CFI (WIP)
+
+
 
 ## Mitigation
 The most obvious approach is to not leave testing code into the source code that can potentially expose confidential information or secrets, but even then we risk other problems, like a service becoming unavailable.
