@@ -31,18 +31,18 @@ int main() {
 }
 ```
 
-## Compile the Source Code
-If you want to follow the next steps, you can compile the program using the provided Makefile. Note that gcc and make must be installed on your machine to compile the source code.
+## Enviroment Simulation
+Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with Docker to follow the next steps.
 
-The following command builds the program into a binary file named jump_function.sh.
+First, we need to build the Docker image - make sure that Docker daemon is installed on the machine -:
 ```shell
-make
-```
-To run the program, use:
-```shell
-./jump_function.sh
+ docker build -t jump_image .
 ```
 
+Then run the container in iterative mode, to execute the jump_function.sh application:
+```shell
+ docker run -it --rm jump_image
+```
 
 ## Analyzing the Binary
 In the same way as in the previous section, we can list all the strings in the binary. In this case, no key has been encoded.
@@ -137,6 +137,11 @@ This kind of safeguard is very commond now a days, and generally added by defaul
 This flag improves buffer overflow protection by adding control data on the stack. With stack canaries, signature values are placed on the stack, and before a return statement, these values are checked to see if they have changed. For example, if there’s a buffer overflow that allows writing up to the rbp in memory, the program checks whether the canary value has been altered before returning, rather than simply jumping to the base pointer (which may have been modified by the attack).
 
 Just like with ASLR, this safeguard improves security, but it is not impossible to exploit executables that have this protection. Through brute force and information leaks, attackers may still be able to bypass this security. [This post](https://ctf101.org/binary-exploitation/stack-canaries/) provides more in-depth information about stack canaries.
+
+With canaries, instead of a segmentation fault message, we get message indicating that a possible attack was deteceted.
+
+![alt text](image.png)
+
 
 To disable canaries during compilation, you can use this parameter (not recommended unless it is purely for testing).
 ```make
