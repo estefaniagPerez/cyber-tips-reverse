@@ -3,6 +3,8 @@ FROM ubuntu:latest
 # Install any build tools needed for your C program.
 RUN apt-get update && apt-get install -y \
     build-essential \
+    procps \
+    xz-utils \
  && rm -rf /var/lib/apt/lists/*
 
 # Set our working directory.
@@ -15,4 +17,4 @@ COPY . /app
 RUN make
 
 # By default, just run the program. We don't expose any ports.
-CMD ["./jump_function.sh"]
+CMD ["bash"]

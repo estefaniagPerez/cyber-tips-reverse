@@ -31,19 +31,6 @@ int main() {
 }
 ```
 
-## Enviroment Simulation
-Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with Docker to follow the next steps.
-
-First, we need to build the Docker image - make sure that Docker daemon is installed on the machine -:
-```shell
- docker build -t jump_image .
-```
-
-Then run the container in iterative mode, to execute the jump_function.sh application:
-```shell
- docker run -it --rm jump_image
-```
-
 ## Analyzing the Binary
 In the same way as in the previous section, we can list all the strings in the binary. In this case, no key has been encoded.
 
@@ -90,9 +77,29 @@ Furthermore, simply giving the program with a long enough message can crash it. 
 
 ![Alt text](images/image-10.png)
 
-Without the overflow, the memory appears as follows. We can see that the *rbp* register points to the previous stack frame.
+Without the overflow, the memory appears as follows. We can see that the *rbp* register points to the previous stack frame. If the rbp pointer is override it would be posible to return to a different funtion, or execute other instruction.
 
 ![Alt text](images/image-11.png)
+
+
+## Enviroment Simulation
+Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with Docker to follow the next steps.
+
+First, we need to build the Docker image - make sure that Docker daemon is installed on the machine -:
+```shell
+ docker build -t jump_image .
+```
+
+Then run the container in iterative mode, to a shell where to run the program:
+```shell
+ docker run --rm -it --privileged jump_image
+```
+
+Run the program with the ASLR falg disabled for the proccess.
+```shell
+setarch x86_64 -R ./jump_function.sh
+```
+
 
 (WIP) This section is in active development and will be updated soon...
 
