@@ -145,7 +145,7 @@ This flag improves buffer overflow protection by adding control data on the stac
 
 Just like with ASLR, this safeguard improves security, but it is not impossible to exploit executables that have this protection. Through brute force and information leaks, attackers may still be able to bypass this security. [This post](https://ctf101.org/binary-exploitation/stack-canaries/) provides more in-depth information about stack canaries.
 
-With canaries, instead of a segmentation fault message, we get message indicating that a possible attack was deteceted.
+With canaries, instead of a segmentation fault message, we get a message indicating that a possible attack was deteceted.
 
 ![alt text](image.png)
 
