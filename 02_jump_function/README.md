@@ -95,7 +95,7 @@ Then run the container in iterative mode, to a shell where to run the program:
  docker run --rm -it --privileged jump_image
 ```
 
-Run the program with the ASLR falg disabled for the proccess.
+Once in the container shell, run the program with the ASLR flag disabled for the program proccess.
 ```shell
 setarch x86_64 -R ./jump_function.sh
 ```
