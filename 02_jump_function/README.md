@@ -81,8 +81,9 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 ![Alt text](images/image-11.png)
 
+### Explotation
 
-## Enviroment Simulation
+### Enviroment Simulation
 Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with Docker to follow the next steps.
 
 First, we need to build the Docker image - make sure that Docker daemon is installed on the machine -:
@@ -100,7 +101,7 @@ Once in the container shell, run the program with the ASLR flag disabled for the
 setarch x86_64 -R ./jump_function.sh
 ```
 
-
+### PayLoad
 (WIP) This section is in active development and will be updated soon...
 
 ## OS and Compiler Safeguards

@@ -14,7 +14,7 @@ WORKDIR /app
 COPY . /app
 
 # Build the program using the Makefile (assumes 'jump_function' is produced).
-RUN make
+#RUN make
 
 # By default, just run the program. We don't expose any ports.
 CMD ["bash"]
