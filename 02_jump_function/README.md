@@ -31,8 +31,8 @@ int main() {
 }
 ```
 
-## Enviroment Simulation
-Safeguards in modern systems - see the following sections for more information - are making it difficult - not imposible - to exploit vulnerabilities like these. You can simulate the execution environment with a Virtual Machine. To setup the enviroment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
+## Environment Simulation
+Safeguards in modern systems - see the following sections for more information - are making it difficult - not impossible - to exploit vulnerabilities like these. You can simulate the execution environment with a Virtual Machine. To setup the environment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
 
 Before you begin, you must have the following software installed on your computer [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/). 
 Please follow the official installation instructions for your operating system (Windows, macOS, or Linux) from their respective websites.
@@ -107,7 +107,7 @@ Note, that if [Ghidra](https://ghidra-sre.org) is installed we can actually see 
 ## Debugging
 We can debug the binary using [Radere2](https://rada.re/n/), and see what happens in memory when we reproduce the *segmentation fault* error.
 
-We beging the debugging process with the following command - make sure Radare2 is intalled -:
+We begin the debugging process with the following command - make sure Radare2 is intalled -:
 ```shell
 r2 -d ./jump_function.sh
 ```
@@ -137,7 +137,7 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 ![Alt text](images/image-11.png)
 
-## Explotation
+## Exploitation
 
 
 ### PayLoad
@@ -176,16 +176,16 @@ sysctl -w kernel.randomize_va_space=2
 While ASLR makes it very difficult to obtain the address of the function to which an exploit might jump, it is not impossible. Some techniques involve information leaks or brute force. [This post](https://securitymaven.medium.com/demystifying-aslr-understanding-exploiting-and-defending-against-memory-randomization-4dd8fe648345) provides an excellent explanation of ASLR and its possible exploitations. Combining ASLR with other safeguards improves security and makes exploiting vulnerabilities significantly more difficult.
 
 ### NX bit & DEP
-NX bit is a compilation flag which makes certain regions of memory non-executable. When a program is load into memory some parts of the memory are always executable, for example, the program instructions need to be executed, but the memory that contains the data should not be executable. If this region of memory is executable it could lead to security vulnerabilities such code injection attacks, where a buffer overflow can be used to write new instrutions into the memory space and execute them.
+NX bit is a compilation flag which makes certain regions of memory non-executable. When a program is load into memory some parts of the memory are always executable, for example, the program instructions need to be executed, but the memory that contains the data should not be executable. If this region of memory is executable it could lead to security vulnerabilities such code injection attacks, where a buffer overflow can be used to write new instructions into the memory space and execute them.
 
-This kind of safeguard is very commond now a days, and generally added by default during compilation. DEP is similar to NX bit, with the different that is an operating system feature, independedly on how the program was compiled, certain regions of memory will be non-executable, and the program variables will be put there.
+This kind of safeguard is very common now a days, and generally added by default during compilation. DEP is similar to NX bit, with the different that is an operating system feature, independently on how the program was compiled, certain regions of memory will be non-executable, and the program variables will be put there.
 
 ### Canary
 This flag improves buffer overflow protection by adding control data on the stack. With stack canaries, signature values are placed on the stack, and before a return statement, these values are checked to see if they have changed. For example, if there’s a buffer overflow that allows writing up to the rbp in memory, the program checks whether the canary value has been altered before returning, rather than simply jumping to the base pointer (which may have been modified by the attack).
 
 Just like with ASLR, this safeguard improves security, but it is not impossible to exploit executables that have this protection. Through brute force and information leaks, attackers may still be able to bypass this security. [This post](https://ctf101.org/binary-exploitation/stack-canaries/) provides more in-depth information about stack canaries.
 
-With canaries, instead of a segmentation fault message, we get a message indicating that a possible attack was deteceted.
+With canaries, instead of a segmentation fault message, we get a message indicating that a possible attack was detected.
 
 ![alt text](image.png)
 
@@ -209,13 +209,13 @@ Some references:
 ## Mitigation
 The most obvious approach is to not leave testing code into the source code that can potentially expose confidential information or secrets, but even then we risk other problems, like a service becoming unavailable.
 
-In order to mitigate this kind of problems we can start by making sure the size of the data readed is limited to the size of the buffer. This can be done, using functions that force to specify the maximum number of bytes to read. For instance, instead of using functions like gets() (which is unsafe and deprecated) or a naive scanf("%s", buf), it is safer to use alternatives such as fgets(buf, sizeof(buf), stdin). It is still importan, to specify the correct size of the buffer in the second parameter, otherwise we can still run into a buffer overflow.
+In order to mitigate this kind of problems we can start by making sure the size of the data read is limited to the size of the buffer. This can be done, using functions that force a maximum number of bytes to be read. For instance, instead of using functions like gets() (which is unsafe and deprecated) or a naive scanf("%s", buf), it is safer to use alternatives such as fgets(buf, sizeof(buf), stdin). It is still important, to specify the correct size of the buffer in the second parameter, otherwise we can still run into a buffer overflow.
 
-Additionally, you should always verify the return values of these functions to handle cases where reading fails or doesn’t consume as many bytes as expected.
+You should always verify the values these functions return, in order to handle cases where reading fails or does not consume as many bytes as expected.
 
-Beyond the use of safe functions, validating the content of user-supplied data is crucial, if a certain field is supposed to hold only numeric values or specific symbols, always validate the data hformat. By limiting the size and validating the input data, ythe probability of accidental buffer overflows is reduced.
+Beyond the use of safe functions, validating the content of user-supplied data is crucial, if a certain field is supposed to hold only numeric values or specific symbols, always validate the data format. By limiting the size and validating the input data, the probability of accidental buffer overflows is reduced.
 
-Since this is easier said than done, a good practice would be using static code analyzers that are capable to analyze source code in search of vulnerbilities and common issues.
+Since this is easier said than done, a good practice would be using static code analyzers that are capable to analyze source code in search of vulnerabilities and common issues.
 
 Finally, we can compile our code with security-hardening flags. For example, most modern compilers offer stack-protector or address sanitizer features that can help detect out-of-bounds writes or reads during development and testing.
 
