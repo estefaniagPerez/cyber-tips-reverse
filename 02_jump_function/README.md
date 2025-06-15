@@ -31,60 +31,8 @@ int main() {
 }
 ```
 
-## Analyzing the Binary
-In the same way as in the previous section, we can list all the strings in the binary. In this case, no key has been encoded.
-
-When we run the program, it prompts us for a key to decrypt a message. If we enter a short text, it just prints the message Data Encrypted; but if we enter a long message, we receive an error. Since the error is a *segmentation fault* error, we can deduce that the program is not limiting the size of the data being input by the user.
-
-![Alt text](images/image.png)
-
-The next step is to inspect the list of functions available in the binary. We’ll use [Cutter](https://cutter.re/) for this. After opening the jump_function.sh binary in Cutter, you can see a list of functions on the left side. Among them is one that can be of interest: *sym.read_encrypt_key*. Notice that, even though this function was commented out in the source code, it still appears in the compiled binary.
-
-![Alt text](images/image-1.png)
-
-Given the earlier error and the fact that the function is still present in the binary, we might be able to call it. Since we have the source code, we know this function prints the secret key. If we didn’t have the source, we could check the Disassembly tab in Cutter and see that it calls fgets to read from a file, followed by puts to print the data.
-
-![Alt text](images/image-2.png)
-
-Note, that if [Ghidra](https://ghidra-sre.org) is installed we can actually see the decompiled code, but it may be a bit hard to read.
-
-## Debugging
-We can debug the binary using [Radere2](https://rada.re/n/), and see what happens in memory when we reproduce the *segmentation fault* error.
-
-We beging the debugging process with the following command - make sure Radare2 is intalled -:
-```shell
-r2 -d ./jump_function.sh
-```
-
-Inside Radare2, we can use the *db* command to add a breakpoint, and *dc* to continue execution. For example, to place a breakpoint at the main function, you can run:
-
-```shell
-db sym.main
-dc
-```
-![Alt text](images/image-4.png)
-
-If we want to see the disassembly while debugging, we can use the vc command to enter Visual Mode.
-
-We’ll place a second breakpoint at the echo call, which occurs right after the program reads the user input. By using Visual Mode, we can find the address of the instruction - note that it may differ from the address shown in the screenshot -. After setting the breakpoint, we can use *dc* to continue the program execution.
-
-
-![Alt text](images/image-9.png)
-
-The program will ask for user input. Here, we will provide a long string consisting solely of the character 'A'. Returning to Visual Mode, we can see that the memory is flooded with 'A's - even the rbp register is overwritten -. This can potentially allow us to call the *sym.read_encrypt_key* function.
-
-Furthermore, simply giving the program with a long enough message can crash it. For example, if this program was running as a remote service on a server, sending excessively long input could break the service and render it unavailable.
-
-![Alt text](images/image-10.png)
-
-Without the overflow, the memory appears as follows. We can see that the *rbp* register points to the previous stack frame. If the rbp pointer is override it would be posible to return to a different funtion, or execute other instruction.
-
-![Alt text](images/image-11.png)
-
-## Explotation
-
-### Enviroment Simulation
-Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with a Virtual Machine. To setup the enviroment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
+## Enviroment Simulation
+Safeguards in modern systems - see the following sections for more information - are making it difficult - not imposible - to exploit vulnerabilities like these. You can simulate the execution environment with a Virtual Machine. To setup the enviroment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
 
 Before you begin, you must have the following software installed on your computer [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/). 
 Please follow the official installation instructions for your operating system (Windows, macOS, or Linux) from their respective websites.
@@ -137,6 +85,61 @@ Once in the container shell, run the program with the ASLR flag disabled for the
 setarch x86_64 -R ./jump_function.sh
 ```
 -->
+
+
+## Analyzing the Binary
+In the same way as in the previous section, we can list all the strings in the binary. In this case, no key has been encoded.
+
+When we run the program, it prompts us for a key to decrypt a message. If we enter a short text, it just prints the message Data Encrypted; but if we enter a long message, we receive an error. Since the error is a *segmentation fault* error, we can deduce that the program is not limiting the size of the data being input by the user.
+
+![Alt text](images/image.png)
+
+The next step is to inspect the list of functions available in the binary. We’ll use [Cutter](https://cutter.re/) for this. After opening the jump_function.sh binary in Cutter, you can see a list of functions on the left side. Among them is one that can be of interest: *sym.read_encrypt_key*. Notice that, even though this function was commented out in the source code, it still appears in the compiled binary.
+
+![Alt text](images/image-1.png)
+
+Given the earlier error and the fact that the function is still present in the binary, we might be able to call it. Since we have the source code, we know this function prints the secret key. If we didn’t have the source, we could check the Disassembly tab in Cutter and see that it calls fgets to read from a file, followed by puts to print the data.
+
+![Alt text](images/image-2.png)
+
+Note, that if [Ghidra](https://ghidra-sre.org) is installed we can actually see the decompiled code, but it may be a bit hard to read.
+
+## Debugging
+We can debug the binary using [Radere2](https://rada.re/n/), and see what happens in memory when we reproduce the *segmentation fault* error.
+
+We beging the debugging process with the following command - make sure Radare2 is intalled -:
+```shell
+r2 -d ./jump_function.sh
+```
+
+Inside Radare2, we can use the *db* command to add a breakpoint, and *dc* to continue execution. For example, to place a breakpoint at the main function, you can run:
+
+```shell
+db sym.main
+dc
+```
+![Alt text](images/image-4.png)
+
+If we want to see the disassembly while debugging, we can use the vc command to enter Visual Mode.
+
+We’ll place a second breakpoint at the echo call, which occurs right after the program reads the user input. By using Visual Mode, we can find the address of the instruction - note that it may differ from the address shown in the screenshot -. After setting the breakpoint, we can use *dc* to continue the program execution.
+
+
+![Alt text](images/image-9.png)
+
+The program will ask for user input. Here, we will provide a long string consisting solely of the character 'A'. Returning to Visual Mode, we can see that the memory is flooded with 'A's - even the rbp register is overwritten -. This can potentially allow us to call the *sym.read_encrypt_key* function.
+
+Furthermore, simply giving the program with a long enough message can crash it. For example, if this program was running as a remote service on a server, sending excessively long input could break the service and render it unavailable.
+
+![Alt text](images/image-10.png)
+
+Without the overflow, the memory appears as follows. We can see that the *rbp* register points to the previous stack frame. If the rbp pointer is override it would be posible to return to a different funtion, or execute other instruction.
+
+![Alt text](images/image-11.png)
+
+## Explotation
+
+
 ### PayLoad
 (WIP) This section is in active development and will be updated soon...
 
