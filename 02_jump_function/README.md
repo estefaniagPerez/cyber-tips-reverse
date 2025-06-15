@@ -81,7 +81,7 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 
 ![Alt text](images/image-11.png)
 
-### Explotation
+## Explotation
 
 ### Enviroment Simulation
 Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with a Virtual Machine. To setup the enviroment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
