@@ -84,8 +84,44 @@ Without the overflow, the memory appears as follows. We can see that the *rbp* r
 ### Explotation
 
 ### Enviroment Simulation
-Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with Docker to follow the next steps.
+Due to certain safeguards in modern systems - see the following sections for more information -, you can simulate the execution environment with a Virtual Machine. To setup the enviroment, you can use the provided Vagrantfile, which will create a VM with the necessary tools installed. 
 
+Before you begin, you must have the following software installed on your computer [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/). 
+Please follow the official installation instructions for your operating system (Windows, macOS, or Linux) from their respective websites.
+
+#### 1. Build and Launch the Virtual Machine
+This is the main step where Vagrant will automatically build and configure your lab environment.
+
+1. Open your terminal application (e.g., Terminal on macOS/Linux, PowerShell or Command Prompt on Windows).
+2. Navigate into your project folder using the cd command.
+
+
+Once you are inside the project folder, run the following command:
+Bash
+```shell
+vagrant up
+```
+
+Important: This command will take several minutes the first time you run it. It has to download the base Ubuntu operating system and then install all the required tools (radare2, Ghidra, Cutter, etc.) and compile the lab binary. You will see a lot of text scrolling in your terminal.
+
+#### 2. Login to the Virtual Machine
+You will be presented with a login screen. Use the following credentials:
+
++ Username: vagrant
++ Password: vagrant
+
+#### 3. Host to Stop the VM
+When you are finished working, you can shut down the VM in one of two ways:
+
+1. From the VM's Desktop: Use the menu in the top-right corner to Log Out or Shut Down the machine, just like a normal computer.
+2. From your Terminal: Go to your project folder on your main computer and run the command 
+    ```shell
+    vagrant halt.
+    ```
+
+The next time you want to use the lab, simply run __vagrant up__ from your project folder, and the VM window will appear again.
+
+<!--
 First, we need to build the Docker image - make sure that Docker daemon is installed on the machine -:
 ```shell
  docker build -t jump_image .
@@ -100,7 +136,7 @@ Once in the container shell, run the program with the ASLR flag disabled for the
 ```shell
 setarch x86_64 -R ./jump_function.sh
 ```
-
+-->
 ### PayLoad
 (WIP) This section is in active development and will be updated soon...
 

@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  config.vm.provider "virtualbox" do |vb|
+    # --- UI Configuration ---
+    vb.gui = true
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+    # --- End of UI Configuration ---
+    vb.memory = "4096"
+    vb.cpus = "2"
+    vb.name = "CyberLabVM"
+  end
+
+  config.vm.synced_folder ".", "/vagrant"
+
+  config.vm.provision "shell", path: "bootstrap.sh"
+end
