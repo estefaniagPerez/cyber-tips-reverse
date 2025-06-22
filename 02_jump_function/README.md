@@ -194,7 +194,7 @@ This will print a string of 'A's followed by the address of the *sym.read_encryp
 python3 payload.py | ./jump_function.sh
 ```
 
-This will display the secret key **super_sEC** that the *sym.read_encrypt_key* function prints, effectively exploiting the vulnerability.
+This will display the secret key **super_sEC** that the *sym.read_encrypt_key* function prints.
 
 ![alt text](images/image-18.png)
 
