@@ -2,19 +2,20 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/focal64"
+  config.vm.boot_timeout = 1800
+
+  # Point to the official Kali Linux box
+  config.vm.box = "kalilinux/rolling"
+  config.vm.box_version = "2025.1.0"
 
   config.vm.provider "virtualbox" do |vb|
-    # --- UI Configuration ---
     vb.gui = true
     vb.customize ["modifyvm", :id, "--vram", "128"]
-    # --- End of UI Configuration ---
     vb.memory = "4096"
     vb.cpus = "2"
-    vb.name = "CyberLabVM"
+    vb.name = "CyberLabVM-Kali"
   end
 
-  config.vm.synced_folder ".", "/vagrant"
-
+  config.vm.synced_folder "./code", "/home/vagrant/Desktop/cyber-lab"
   config.vm.provision "shell", path: "bootstrap.sh"
 end

