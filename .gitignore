@@ -53,3 +53,7 @@ dkms.conf
 
 # Other
 *.c_old
+
+.vagrant/
+02_jump_function/jump_function.sh
+.Trash-*
