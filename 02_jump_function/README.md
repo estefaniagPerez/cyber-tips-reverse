@@ -247,12 +247,6 @@ gcc -fno-stack-protector ...
 ### CFI (WIP)
 Control-Flow Integrity (CFI) ensures that a program’s execution flow is correct by, for example, calculating the control flow graph during compilation and validating the execution against it. This validation may not always be possible, especially when some control flows are determined at runtime (such as with virtual functions in C++).
 
-(WIP) Currently researching this topic.  
-Some references:  
-+ [link](https://www.cs.columbia.edu/~suman/secure_sw_devel/p340-abadi.pdf)  
-+ [link](https://www.redhat.com/en/blog/fighting-exploits-control-flow-integrity-cfi-clang)  
-+ [link](https://security.stackexchange.com/questions/196980/how-do-exploit-developers-counter-control-flow-integrity-cfi-used-to-prevent-r)
-
 
 ## Mitigation
 The most obvious approach is to avoid leaving testing code in the source that could potentially expose confidential information or secrets. However, even this can lead to other issues, such as service unavailability if the overflow is exploited to break the program execution of a remote service.
