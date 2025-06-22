@@ -244,8 +244,8 @@ To disable canaries during compilation (not recommended unless purely for testin
 ```make
 gcc -fno-stack-protector ... 
 ```
-### CFI (WIP)
-Control-Flow Integrity (CFI) ensures that a program’s execution flow is correct by, for example, calculating the control flow graph during compilation and validating the execution against it. This validation may not always be possible, especially when some control flows are determined at runtime (such as with virtual functions in C++).
+### CFI
+Control-Flow Integrity ensures that a program’s execution flow is correct by, for example, calculating the control flow graph during compilation and validating the execution against it. This validation may not always be possible, especially when some control flows are determined at runtime (such as with virtual functions in C++).
 
 
 ## Mitigation
