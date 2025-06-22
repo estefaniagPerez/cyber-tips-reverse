@@ -151,7 +151,7 @@ We can look for the address of the *sym.read_encrypt_key* function using he Visu
 ## Exploitation
 
 ### PayLoad
-We can exploit this vulnerability by crafting a payload that overwrites the *rbp* register with the address of the *sym.read_encrypt_key* function. This way, when the program attempts to return from the current function, it will jump to *sym.read_encrypt_key* instead.
+We can craft a payload that overwrites the *rbp* register with the address of the *sym.read_encrypt_key* function. This way, when the program attempts to return from the current function, it will jump to *sym.read_encrypt_key* instead.
 
 We can use the *pwn* tool from [pwntools](https://docs.pwntools.com/en/stable/) to create the payload. First, ensure that pwntools is installed in your Python environment. Then, you can run the following script:
 
