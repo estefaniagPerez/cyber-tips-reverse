@@ -133,7 +133,7 @@ We’ll place a second breakpoint at the echo call, which occurs right after the
 
 ![Alt text](images/image-9.png)
 
-The program will prompt for user input. Here, provide a long string consisting solely of the character 'A'. Returning to Visual Mode, you will see that the memory is flooded with 'A's—even the rbp register is overwritten—potentially allowing us to call the *sym.read_encrypt_key* function.
+The program will prompt for user input. Here, provide a long string consisting solely of the character 'A'. Returning to Visual Mode, you will see that the memory is flooded with 'A's — even the rbp register is overwritten — potentially allowing us to call the *sym.read_encrypt_key* function.
 
 Furthermore, simply giving the program a long input can crash it. For example, if this program was running as a remote service on a server, sending long inputs could cause the service to become unavailable.
 
