@@ -102,7 +102,7 @@ When we run the program, it prompts us for a key to decrypt a message. If we ent
 
 ![alt text](images/image-16.png)
 
-The next step is to inspect the list of functions available in the binary. We’ll use [Cutter](https://cutter.re/) for this. After opening the jump_function.sh binary in Cutter, you can see a list of functions on the left side. Among them is one that may be of interest: *sym.read_encrypt_key*. Note that, even though this function was commented out in the source code, it still appears in the compiled binary.
+The next step is to inspect the list of functions available in the binary. We’ll use [Cutter](https://cutter.re/) for this. After opening the jump_function.sh binary in Cutter, you can see a list of functions on the left side. Among them there is one that may be of interest: *sym.read_encrypt_key*. Note that, even though this function was commented out in the source code, it still appears in the compiled binary.
 
 ![Alt text](images/image-1.png)
 
