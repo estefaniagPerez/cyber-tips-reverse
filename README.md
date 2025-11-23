@@ -2,8 +2,9 @@
 
 <a href='' target="_blank"><img alt='Cyber Security' src='https://img.shields.io/badge/Cyber_Security-100000?style=for-the-badge&logo=Cyber Security&logoColor=B60000&labelColor=FFA200&color=FFA200'/></a>
 
-This repository contains a collection of simple, easy-to-follow lessons on various fundamental topics in binary analysis and reverse engineering, designed specifically for beginners. The main focus of these lessons is to explore common security concerns in binary files and learn how to mitigate them.
+This repository demonstrates the mechanics of stack-based buffer overflows in C/C++, specifically focusing on control flow hijacking (modifying return addresses).
 
+Critically, it provides a comparative analysis of mitigation strategies (Stack Canaries, ASLR, Secure Coding Practices) to demonstrate how modern engineering teams can prevent these classes of vulnerabilities at the compiler and code level.
 ![alt text](image-1.png)
 
 ## Introduction
