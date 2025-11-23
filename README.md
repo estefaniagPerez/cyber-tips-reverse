@@ -5,6 +5,7 @@
 This repository demonstrates the mechanics of stack-based buffer overflows in C/C++, specifically focusing on control flow hijacking (modifying return addresses).
 
 Critically, it provides a comparative analysis of mitigation strategies (Stack Canaries, ASLR, Secure Coding Practices) to demonstrate how modern engineering teams can prevent these classes of vulnerabilities at the compiler and code level.
+
 ![alt text](image-1.png)
 
 ## Introduction
